@@ -4,8 +4,8 @@ PHP_VERSION=''
 PUSH=''
 CONFIG=''
 TAG=''
-#BUILDER='litespeedtech'
-#REPO='loadbalancer'
+BUILDER='litespeedtech'
+REPO='loadbalancer'
 EPACE='        '
 
 echow(){
@@ -33,7 +33,7 @@ build_image(){
     if [ -z "${1}" ]; then
         help_message
     else
-        echo "${1} ${2}"
+        echo "${1}"
         docker build . --tag ${BUILDER}/${REPO}:${1} --build-arg LSLB_VERSION=${1}
     fi    
 }

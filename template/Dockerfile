@@ -3,8 +3,9 @@ ENV LS_FD='/usr/local/lslb'
 
 ARG LSLB_VERSION
 ARG PHP_VERSION
+ARG DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && apt-get install wget curl tzdata cron vim git -y
+RUN apt-get update && apt-get install wget curl tzdata cron vim git apt-utils -y
 
 COPY lslb-install.sh /
 RUN chmod +x /lslb-install.sh && bash /lslb-install.sh $LSLB_VERSION
