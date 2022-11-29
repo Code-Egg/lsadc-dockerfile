@@ -1,0 +1,19 @@
+version: '3'
+services:
+  litespeed:
+    image: litespeedtech/loadbalancer:${LSLB_VERSION}
+    env_file:
+      - .env
+    volumes:
+        - ./lslb/conf:/usr/local/lslb/conf
+        - ./lslb/admin/conf:/usr/local/lslb/admin/conf
+        - ./logs:/usr/local/lslb/logs/
+    ports:
+      - 80:80
+      - 443:443
+      - 443:443/udp
+      - 8090:8090
+      - 7090:7090
+    restart: always
+    environment:
+      TZ: ${TimeZone}
