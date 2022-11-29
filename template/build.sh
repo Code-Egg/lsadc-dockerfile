@@ -18,8 +18,6 @@ help_message(){
     echo -e "\033[1mOPTIONS\033[0m" 
     echow '-L, --lslb [VERSION]'
     echo "${EPACE}${EPACE}Example: bash build.sh --lslb 3.1.6"
-    #echow '--push'
-    #echo "${EPACE}${EPACE}Example: build.sh --lslb 5.4.6 --php lsphp74 --push, will push to the dockerhub"
     exit 0
 }
 
@@ -38,45 +36,8 @@ build_image(){
     fi    
 }
 
-test_image(){
-    ID=$(docker run -d ${BUILDER}/${REPO}:${1})
-    sleep 1
-    docker exec -i ${ID} su -c 'mkdir -p /var/www/vhosts/localhost/html/ \
-    && echo "<?php phpinfo();" > /var/www/vhosts/localhost/html/index.php \
-    && /usr/local/lslb/bin/lslbctrl restart >/dev/null '
-
-    HTTP=$(docker exec -i ${ID} curl -s -o /dev/null -Ik -w "%{http_code}" http://localhost)
-    HTTPS=$(docker exec -i ${ID} curl -s -o /dev/null -Ik -w "%{http_code}" https://localhost)
-    docker kill ${ID}
-    if [[ "${HTTP}" != "200" || "${HTTPS}" != "200" ]]; then
-        echo '[X] Test failed!'
-        echo "http://localhost returned ${HTTP}"
-        echo "https://localhost returned ${HTTPS}"
-        exit 1
-    else
-        echo '[O] Tests passed!' 
-    fi
-}
-
-push_image(){
-    if [ ! -z "${PUSH}" ]; then
-        if [ -f ~/.docker/litespeedtech/config.json ]; then
-            CONFIG=$(echo --config ~/.docker/litespeedtech)
-        fi
-        docker ${CONFIG} push ${BUILDER}/${REPO}:${1}
-        if [ ! -z "${TAG}" ]; then
-            docker tag ${BUILDER}/${REPO}:${1} ${BUILDER}/${REPO}:${3}
-            docker ${CONFIG} push ${BUILDER}/${REPO}:${3}
-        fi
-    else
-        echo 'Skip Push.'    
-    fi
-}
-
 main(){
     build_image ${LSLB_VERSION}
-    #test_image ${LSLB_VERSION} ${PHP_VERSION}
-    #push_image ${LSLB_VERSION} ${PHP_VERSION} ${TAG}
 }
 
 check_input ${1}
@@ -91,10 +52,7 @@ while [ ! -z "${1}" ]; do
             ;;
         -[tT] | -tag | -TAG | --tag) shift
             TAG="${1}"
-            ;;       
-        #--push )
-        #    PUSH=true
-        #    ;;            
+            ;;              
         *) 
             help_message
             ;;              
