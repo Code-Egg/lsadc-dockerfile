@@ -30,7 +30,7 @@ check_input(){
 }
 
 build_image(){
-    if [ -z "${1}" ] || [ -z "${2}" ]; then
+    if [ -z "${1}" ]; then
         help_message
     else
         echo "${1} ${2}"
