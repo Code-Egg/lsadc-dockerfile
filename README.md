@@ -4,8 +4,8 @@
 ### Building an image
 
 ```
-git clone https://github.com/litespeedtech/lsws-dockerfiles.git
-cd lsws-dockerfiles/template
+git clone https://github.com/Code-Egg/lsadc-dockerfile.git
+cd lsadc-dockerfiles/template
 bash build.sh -L 3.1.6
 ```
 
