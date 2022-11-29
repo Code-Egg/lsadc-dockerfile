@@ -63,9 +63,9 @@ push_image(){
         if [ -f ~/.docker/litespeedtech/config.json ]; then
             CONFIG=$(echo --config ~/.docker/litespeedtech)
         fi
-        docker ${CONFIG} push ${BUILDER}/${REPO}:${1}-${2}
+        docker ${CONFIG} push ${BUILDER}/${REPO}:${1}
         if [ ! -z "${TAG}" ]; then
-            docker tag ${BUILDER}/${REPO}:${1}-${2} ${BUILDER}/${REPO}:${3}
+            docker tag ${BUILDER}/${REPO}:${1} ${BUILDER}/${REPO}:${3}
             docker ${CONFIG} push ${BUILDER}/${REPO}:${3}
         fi
     else
@@ -74,7 +74,7 @@ push_image(){
 }
 
 main(){
-    build_image ${LSLB_VERSION} ${PHP_VERSION}
+    build_image ${LSLB_VERSION}
     #test_image ${LSLB_VERSION} ${PHP_VERSION}
     #push_image ${LSLB_VERSION} ${PHP_VERSION} ${TAG}
 }
