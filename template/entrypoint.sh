@@ -1,6 +1,10 @@
 #!/bin/bash
 LSDIR='/usr/local/lslb'
 
+if [ -z "$(ls -A -- "${LSDIR}/conf/")" ]; then
+	cp -R ${LSDIR}/.conf/* ${LSDIR}/conf/
+fi
+
 if [ ! -e ${LSDIR}/conf/serial.no ] && [ ! -e ${LSDIR}/conf/license.key ]; then
     rm -f ${LSDIR}/conf/trial.key*
     wget -P ${LSDIR}/conf/ http://license.litespeedtech.com/reseller/trial.key
