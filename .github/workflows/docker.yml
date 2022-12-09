@@ -21,7 +21,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Docker build
-        if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'pull_request' }}
+        if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
         run: |
           cd ${{ env.FOLDER }}
           bash build.sh --lslb ${{ env.LSLB_VERSION }} --tag ${{ matrix.TAG }}
