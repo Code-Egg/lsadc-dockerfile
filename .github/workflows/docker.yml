@@ -29,6 +29,12 @@ jobs:
       - name: Verify
         run: |
           docker-compose up -d
-          docker ps 
           sleep 10
+          docker ps 
           curl -sIk https://localhost:7090/ | grep -i LiteSpeed
+          if [ ${?} = 0 ]; then
+              echo '[O]  https://localhost:7080/'
+          else
+              echo '[X]  https://localhost:7080/'
+              exit 1
+          fi  
