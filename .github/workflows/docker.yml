@@ -1,0 +1,27 @@
+name: docker-build
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+env:
+  FOLDER: template
+  LSLB_VERSION: 3.1.6
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: 
+        TAG: [latest,'']
+    steps:
+      - uses: actions/checkout@v2
+      - name: Docker build
+        if: ${{ github.ref == 'refs/heads/master' && github.event_name == 'pull_request' }}
+        run: |
+          cd ${{ env.FOLDER }}
+          bash build.sh --lslb ${{ env.LSLB_VERSION }} --tag ${{ matrix.TAG }}
