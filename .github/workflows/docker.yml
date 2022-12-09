@@ -4,10 +4,10 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - master
+      - main
 env:
   FOLDER: template
   LSLB_VERSION: 3.1.6
@@ -21,7 +21,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Docker build
-        if: ${{ github.ref == 'refs/heads/master' && github.event_name == 'pull_request' }}
+        if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'pull_request' }}
         run: |
           cd ${{ env.FOLDER }}
           bash build.sh --lslb ${{ env.LSLB_VERSION }} --tag ${{ matrix.TAG }}
