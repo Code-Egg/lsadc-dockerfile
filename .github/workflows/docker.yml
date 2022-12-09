@@ -26,3 +26,9 @@ jobs:
           cd ${{ env.FOLDER }}
           bash build.sh --lslb ${{ env.LSLB_VERSION }} --tag ${{ matrix.TAG }}
           docker images
+      - name: Verify
+        run: |
+          docker-compose up -d
+          docker ps 
+          sleep 10
+          curl -sIk https://localhost:7090/ | grep -i LiteSpeed
