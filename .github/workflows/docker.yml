@@ -25,3 +25,4 @@ jobs:
         run: |
           cd ${{ env.FOLDER }}
           bash build.sh --lslb ${{ env.LSLB_VERSION }} --tag ${{ matrix.TAG }}
+          docker images
